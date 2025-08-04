@@ -3,6 +3,7 @@ extends CharacterBody3D
 @onready var head: Node3D = $Head
 @onready var eyes: Node3D = $Head/Eyes
 @onready var camera_3d: Camera3D = $Head/Eyes/Camera3D
+@onready var interaction_controller: Node = $"Interaction controller"
 
 
 #FLASH LIGHT VARS
@@ -67,9 +68,10 @@ func _input(event: InputEvent) -> void:
 		get_tree().quit()
 		
 	if event is InputEventMouseMotion :
-		rotate_y(deg_to_rad(-event.relative.x) * mouse_sense )
-		head.rotate_x(deg_to_rad(-event.relative.y) * mouse_sense)
-		head.rotation.x = clamp(head.rotation.x , deg_to_rad(-85) , deg_to_rad(85))
+		if not interaction_controller.isCameraLocked() :
+			rotate_y(deg_to_rad(-event.relative.x) * mouse_sense )
+			head.rotate_x(deg_to_rad(-event.relative.y) * mouse_sense)
+			head.rotation.x = clamp(head.rotation.x , deg_to_rad(-85) , deg_to_rad(85))
 	# Toggle flashlight on/off
 	if event.is_action_pressed("flashlight"):
 		flashlight_on = !flashlight_on
@@ -84,7 +86,7 @@ func _physics_process(delta: float) -> void:
 		if velocity.y >= 0: #Jumping upwards
 			velocity += get_gravity() * delta
 		else : #Falling Down
-			velocity += get_gravity() * delta * 1.5
+			velocity += get_gravity() * delta * 2.0
 	#Jumping State
 	else:
 		if Input.is_action_just_pressed("jump") and not stand_up_check.is_colliding():
@@ -101,26 +103,43 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x , 0 , current_speed )
 		velocity.z = move_toward(velocity.z , 0 , current_speed )
 	move_and_slide()
+func update_player_stat() -> void:
+	moving = input_dir != Vector2.ZERO
 
-func update_player_stat() :
-	moving = (input_dir != Vector2.ZERO)
-	if not is_on_floor() :
-		player_state = PlayerState.AIR
-	else :
-		if Input.is_action_pressed("crouch") :
-			if not moving :
-				player_state = PlayerState.IDLE_CROUCH
-			else :
-				player_state = PlayerState.CROUCHING
-		elif !stand_up_check.is_colliding() :
-			if not moving :
+	var wants_to_crouch = Input.is_action_pressed("crouch")
+	var can_stand_up = not stand_up_check.is_colliding()
+	# --- Handle crouching logic (works in air and ground) ---
+	if wants_to_crouch:
+		if moving:
+			player_state = PlayerState.CROUCHING
+		else:
+			player_state = PlayerState.IDLE_CROUCH
+	elif can_stand_up:
+		if is_on_floor():
+			if not moving:
 				player_state = PlayerState.IDLE_STAND
-			elif  Input.is_action_pressed("sprint") :
+			elif Input.is_action_pressed("sprint"):
 				player_state = PlayerState.SPRINTING
-			else :
+			else:
 				player_state = PlayerState.WALKING
+		else:
+			player_state = PlayerState.AIR
+	else:
+		if moving:
+			player_state = PlayerState.CROUCHING
+		else:
+			player_state = PlayerState.IDLE_CROUCH
+
+	# --- Override with AIR if not grounded ---
+	if not is_on_floor() and player_state != PlayerState.AIR:
+		if wants_to_crouch or not can_stand_up:
+			player_state = PlayerState.IDLE_CROUCH
+		else:
+			player_state = PlayerState.AIR
+
 	updatePlayerColShape(player_state)
 	updatePlayerSpeed(player_state)
+
 
 
 func updatePlayerColShape(_player_state : PlayerState )-> void :
