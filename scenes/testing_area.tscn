@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b2tk3luh1ybde"]
+[gd_scene load_steps=30 format=3 uid="uid://b2tk3luh1ybde"]
 
 [ext_resource type="Texture2D" uid="uid://cnqdx1erhsdnj" path="res://assets/texture/PNG/Dark/texture_13.png" id="1_mu1h5"]
 [ext_resource type="Texture2D" uid="uid://doqg7nvu15ycg" path="res://assets/texture/PNG/Light/texture_13.png" id="2_dkpym"]
@@ -7,6 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://dsclsp7nmtltp" path="res://objects/cube_1_kg.tscn" id="5_ujok3"]
 [ext_resource type="PackedScene" uid="uid://bvk25ctfi5for" path="res://objects/cube_5_kg.tscn" id="6_mmyom"]
 [ext_resource type="PackedScene" uid="uid://m4j1gky5ysoe" path="res://objects/door.tscn" id="7_467br"]
+[ext_resource type="Texture2D" uid="uid://cb550siyb5qhr" path="res://assets/texture/PNG/Dark/texture_09.png" id="8_amuii"]
+[ext_resource type="PackedScene" uid="uid://bg2p00dg5arjl" path="res://scenes/interaction/interaction_component.tscn" id="9_q8f10"]
+[ext_resource type="Script" uid="uid://b31muacxh5ihb" path="res://scripts/testing_area_scripts/light_switch.gd" id="10_sgqq3"]
+[ext_resource type="Script" uid="uid://gxgvdoyl5vdj" path="res://scripts/testing_area_scripts/bridge.gd" id="11_f0vol"]
+[ext_resource type="PackedScene" uid="uid://b1soacddy2uno" path="res://objects/wheel.tscn" id="11_sgqq3"]
+[ext_resource type="PackedScene" uid="uid://bxkxl7xogytio" path="res://objects/item.tscn" id="12_rfdjd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dkpym"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -37,6 +43,37 @@ uv1_triplanar = true
 albedo_texture = ExtResource("4_7dpvd")
 uv1_triplanar = true
 
+[sub_resource type="BoxMesh" id="BoxMesh_467br"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g87el"]
+albedo_texture = ExtResource("8_amuii")
+uv1_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_467br"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rbxwc"]
+size = Vector3(0.1, 0.75, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bd5kx"]
+size = Vector3(0.1, 0.75, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c5phc"]
+lightmap_size_hint = Vector2i(5, 16)
+size = Vector3(0.1, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0jdk"]
+albedo_color = Color(0.815404, 0.686706, 0.132155, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7wgt2"]
+size = Vector3(0.1, 1, 0.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a7oxc"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.05
+
 [node name="SandBox" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -65,7 +102,7 @@ size = Vector3(8, 2, 1)
 material = SubResource("StandardMaterial3D_mmyom")
 
 [node name="player" parent="." instance=ExtResource("3_dkpym")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8373, 0.812822, -0.274181)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.8373, 0.557879, -0.274181)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.53674e-07, -0.0703764, -19.5182)
@@ -115,3 +152,188 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.43567, 1, 5.02116)
 
 [node name="Door" parent="." instance=ExtResource("7_467br")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.06049, 0.5, 5.19059)
+
+[node name="Podium" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Podium"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Podium/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_467br")
+surface_material_override/0 = SubResource("StandardMaterial3D_g87el")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Podium/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_467br")
+
+[node name="Label3D" type="Label3D" parent="Podium/StaticBody3D"]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -0.564052, 1.39349, 0)
+text = "Switch
+"
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Podium/StaticBody3D"]
+transform = Transform3D(0.776244, 2.75571e-08, -0.630432, 0.630432, -3.39307e-08, 0.776244, 0, -1, -4.37114e-08, -2.03188, 3, 0)
+light_color = Color(0.363628, 0.616423, 0.363611, 1)
+light_energy = 0.0
+light_bake_mode = 1
+script = ExtResource("10_sgqq3")
+
+[node name="Switch" type="Node3D" parent="Podium"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 6.46064, 1.78984, -0.014481)
+
+[node name="Switch" type="StaticBody3D" parent="Podium/Switch"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Podium/Switch/Switch"]
+mesh = SubResource("BoxMesh_rbxwc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Podium/Switch/Switch"]
+shape = SubResource("BoxShape3D_bd5kx")
+
+[node name="InteractionComponent" parent="Podium/Switch/Switch" node_paths=PackedStringArray("object_ref", "nodes_to_affect") instance=ExtResource("9_q8f10")]
+object_ref = NodePath("..")
+interaction_type = 2
+nodes_to_affect = [NodePath("../../../StaticBody3D/SpotLight3D")]
+
+[node name="FLOOR2" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="FLOOR2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 55)
+use_collision = true
+size = Vector3(30, 1, 30)
+material = SubResource("StandardMaterial3D_7dpvd")
+
+[node name="PivotPoint" type="Node3D" parent="FLOOR2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 15)
+script = ExtResource("11_f0vol")
+
+[node name="Bridge" type="CSGBox3D" parent="FLOOR2/PivotPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 12.5)
+use_collision = true
+size = Vector3(10, 0.5, 25)
+
+[node name="Podium2" type="Node3D" parent="FLOOR2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6.37254, 1, 14.1099)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FLOOR2/Podium2"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FLOOR2/Podium2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_467br")
+surface_material_override/0 = SubResource("StandardMaterial3D_g87el")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FLOOR2/Podium2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_467br")
+
+[node name="Label3D" type="Label3D" parent="FLOOR2/Podium2/StaticBody3D"]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -0.564052, 1.39349, 0)
+text = "Rotate
+"
+
+[node name="SpotLight3D" type="SpotLight3D" parent="FLOOR2/Podium2/StaticBody3D"]
+transform = Transform3D(0.776244, 2.75571e-08, -0.630432, 0.630432, -3.39307e-08, 0.776244, 0, -1, -4.37114e-08, -2.03188, 3, 0)
+light_color = Color(0.363628, 0.616423, 0.363611, 1)
+light_energy = 0.0
+light_bake_mode = 1
+script = ExtResource("10_sgqq3")
+
+[node name="Wheel" type="Node3D" parent="FLOOR2/Podium2"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.58701, 0.804464, 0.0304689)
+
+[node name="Wheel" type="StaticBody3D" parent="FLOOR2/Podium2/Wheel"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+mesh = SubResource("BoxMesh_c5phc")
+surface_material_override/0 = SubResource("StandardMaterial3D_t0jdk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="FLOOR2/Podium2/Wheel/Wheel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_a7oxc")
+
+[node name="InteractionComponent" parent="FLOOR2/Podium2/Wheel/Wheel" node_paths=PackedStringArray("object_ref", "nodes_to_affect") instance=ExtResource("9_q8f10")]
+object_ref = NodePath("..")
+interaction_type = 3
+maximum_rotation = 360.0
+nodes_to_affect = [NodePath("../../../../PivotPoint")]
+
+[node name="Podium3" type="Node3D" parent="FLOOR2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.65291, 1, 12.3506)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FLOOR2/Podium3"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FLOOR2/Podium3/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_467br")
+surface_material_override/0 = SubResource("StandardMaterial3D_g87el")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FLOOR2/Podium3/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_467br")
+
+[node name="Label3D" type="Label3D" parent="FLOOR2/Podium3/StaticBody3D"]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -0.564052, 1.39349, 0)
+text = "Rotate
+"
+
+[node name="SpotLight3D" type="SpotLight3D" parent="FLOOR2/Podium3/StaticBody3D"]
+transform = Transform3D(0.776244, 2.75571e-08, -0.630432, 0.630432, -3.39307e-08, 0.776244, 0, -1, -4.37114e-08, -2.03188, 3, 0)
+light_color = Color(0.363628, 0.616423, 0.363611, 1)
+light_energy = 0.0
+light_bake_mode = 1
+script = ExtResource("10_sgqq3")
+
+[node name="Wheel" parent="FLOOR2/Podium3" instance=ExtResource("11_sgqq3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.58701, 0.804464, 0.0304689)
+
+[node name="item" parent="." instance=ExtResource("12_rfdjd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2574, 1.65, 4.57232)
+
+[node name="item2" parent="." instance=ExtResource("12_rfdjd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75531, 1.65, 4.57232)
+
+[node name="item3" parent="." instance=ExtResource("12_rfdjd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2574, 1.65, 5.05853)

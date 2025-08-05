@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1soacddy2uno"]
+
+[ext_resource type="PackedScene" uid="uid://bg2p00dg5arjl" path="res://scenes/interaction/interaction_component.tscn" id="1_45fdq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c5phc"]
+lightmap_size_hint = Vector2i(5, 16)
+size = Vector3(0.1, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0jdk"]
+albedo_color = Color(0.815404, 0.686706, 0.132155, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7wgt2"]
+size = Vector3(0.1, 1, 0.1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a7oxc"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.05
+
+[node name="Wheel" type="Node3D"]
+
+[node name="Wheel" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wheel"]
+mesh = SubResource("BoxMesh_c5phc")
+surface_material_override/0 = SubResource("StandardMaterial3D_t0jdk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wheel"]
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_c5phc")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Wheel"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_7wgt2")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Wheel"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_a7oxc")
+
+[node name="InteractionComponent" parent="Wheel" node_paths=PackedStringArray("object_ref") instance=ExtResource("1_45fdq")]
+object_ref = NodePath("..")
+interaction_type = 3
+maximum_rotation = 360.0

@@ -1,8 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://d1a7xnay6nkg2"]
+[gd_scene load_steps=18 format=3 uid="uid://d1a7xnay6nkg2"]
 
 [ext_resource type="PackedScene" uid="uid://cs3o7apkits0q" path="res://scenes/Player/player.tscn" id="1_sxf4j"]
 [ext_resource type="Texture2D" uid="uid://cnqdx1erhsdnj" path="res://assets/texture/PNG/Dark/texture_13.png" id="2_tqkkf"]
-[ext_resource type="PackedScene" uid="uid://bvk25ctfi5for" path="res://objects/cube_5_kg.tscn" id="3_a2pkv"]
+[ext_resource type="Texture2D" uid="uid://bpyl3xkskxj0v" path="res://assets/texture/PNG/Dark/texture_08.png" id="3_a2pkv"]
+[ext_resource type="PackedScene" uid="uid://dsclsp7nmtltp" path="res://objects/cube_1_kg.tscn" id="4_jcaow"]
+[ext_resource type="PackedScene" uid="uid://bvk25ctfi5for" path="res://objects/cube_5_kg.tscn" id="5_04w0f"]
+[ext_resource type="PackedScene" uid="uid://m4j1gky5ysoe" path="res://objects/door.tscn" id="6_sqgf4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_scl2d"]
 sky_top_color = Color(0.112562, 0.142863, 0.185002, 1)
@@ -16,7 +19,6 @@ sky_material = SubResource("ProceduralSkyMaterial_scl2d")
 [sub_resource type="Environment" id="Environment_tqkkf"]
 background_mode = 2
 sky = SubResource("Sky_sxf4j")
-ambient_light_sky_contribution = 0.0
 tonemap_mode = 2
 glow_enabled = true
 
@@ -25,8 +27,11 @@ albedo_texture = ExtResource("2_tqkkf")
 uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fcby6"]
-albedo_texture = ExtResource("2_tqkkf")
+albedo_texture = ExtResource("3_a2pkv")
 uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f17u5"]
+albedo_texture = ExtResource("3_a2pkv")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ph54e"]
 albedo_texture = ExtResource("2_tqkkf")
@@ -51,7 +56,7 @@ uv1_triplanar = true
 [node name="Map" type="Node3D"]
 
 [node name="player" parent="." instance=ExtResource("1_sxf4j")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 121.403, 16.8441, 146.863)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 67.859, 16.8441, 92.8406)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tqkkf")
@@ -59,61 +64,220 @@ environment = SubResource("Environment_tqkkf")
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 use_collision = true
-size = Vector3(250, 0.5, 300)
+size = Vector3(150, 1, 200)
 
 [node name="FirstFloor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
 use_collision = true
-size = Vector3(250, 0.5, 300)
+size = Vector3(150, 0.5, 200)
 
 [node name="SecondFloor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.5, 0)
 use_collision = true
-size = Vector3(250, 0.5, 300)
+size = Vector3(150, 1, 200)
 material = SubResource("StandardMaterial3D_a2pkv")
 
-[node name="InnerWaller" type="CSGBox3D" parent="SecondFloor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.172, 4, 141.181)
-size = Vector3(1, 8, 18)
+[node name="MainWalls_CENTER" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SecondFloor/MainWalls_CENTER"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 50, 20.5, 0)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="SecondFloor/MainWalls_CENTER"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -50, 20.5, 0)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="SecondFloor/MainWalls_CENTER"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 50)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="SecondFloor/MainWalls_CENTER"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, -50)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="MainWalls_RIGHT" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SecondFloor/MainWalls_RIGHT"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 65, 20.5, 0)
+use_collision = true
+size = Vector3(101, 8, 1)
 material = SubResource("StandardMaterial3D_fcby6")
 
-[node name="Door" type="CSGCylinder3D" parent="SecondFloor/InnerWaller"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.0840149, -3.17698, 7.02283)
+[node name="CutRight" type="CSGCylinder3D" parent="SecondFloor/MainWalls_RIGHT/CSGBox3D"]
+transform = Transform3D(4.37114e-08, 1.39091e-08, -1, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1.39091e-08, -51, 0, 0)
 operation = 2
-radius = 1.0
-height = 1.313
-sides = 35
+radius = 4.0
+sides = 20
 
-[node name="Cube_5kg" parent="SecondFloor/InnerWaller" instance=ExtResource("3_a2pkv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36339, -3.25, 6.98145)
+[node name="CutLeft" type="CSGCylinder3D" parent="SecondFloor/MainWalls_RIGHT/CSGBox3D"]
+transform = Transform3D(4.37114e-08, 1.39091e-08, -1, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1.39091e-08, 51, 0, 0)
+operation = 2
+radius = 4.0
+sides = 20
 
-[node name="InnerWaller2" type="CSGBox3D" parent="SecondFloor"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 116.388, 4, 131.972)
-size = Vector3(1, 8, 18)
+[node name="MainWalls_LEFT" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SecondFloor/MainWalls_LEFT"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -65, 20.5, 0)
+use_collision = true
+size = Vector3(101, 8, 1)
 material = SubResource("StandardMaterial3D_fcby6")
+
+[node name="CutRight" type="CSGCylinder3D" parent="SecondFloor/MainWalls_LEFT/CSGBox3D"]
+transform = Transform3D(4.37114e-08, 1.39091e-08, -1, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1.39091e-08, -51, 0, 0)
+operation = 2
+radius = 4.0
+sides = 20
+
+[node name="CutLeft" type="CSGCylinder3D" parent="SecondFloor/MainWalls_LEFT/CSGBox3D"]
+transform = Transform3D(4.37114e-08, 1.39091e-08, -1, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1.39091e-08, 51, 0, 0)
+operation = 2
+radius = 4.0
+sides = 20
+
+[node name="MainWalls_FRONT" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="SecondFloor/MainWalls_FRONT"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 90)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="SecondFloor/MainWalls_FRONT"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 75)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="MainWalls_BACK" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="SecondFloor/MainWalls_BACK"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, -90)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="SecondFloor/MainWalls_BACK"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, -75)
+use_collision = true
+size = Vector3(101, 8, 1)
+
+[node name="CORNOR_SPAWN" type="Node" parent="SecondFloor"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SecondFloor/CORNOR_SPAWN"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.472, 20.5, 87)
+material_override = SubResource("StandardMaterial3D_f17u5")
+use_collision = true
+size = Vector3(25, 8, 25)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.0625, 7)
+operation = 2
+radius = 9.04
+height = 8.625
+sides = 25
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -3)
+operation = 2
+radius = 9.04
+height = 8.625
+sides = 25
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 9)
+operation = 2
+radius = 9.04
+height = 8.625
+sides = 25
+
+[node name="DOOR" type="CSGBox3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0015, -2.68896, 9.552)
+operation = 2
+size = Vector3(2.50293, 3.62207, 1.604)
+
+[node name="DOOR2" type="CSGBox3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10, -2.5, -13)
+operation = 2
+size = Vector3(2.50293, 4, 2.5)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -2.47487, -3.02692, -2.47488)
+operation = 2
+size = Vector3(8, 2, 1.2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.18068, -3.02536, -5.12309)
+operation = 2
+size = Vector3(8.588, 2, 1.2)
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.21867, 0, -4.9808)
+operation = 2
+radius = 0.753418
+height = 8.625
+sides = 25
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.19229, 0)
+light_color = Color(0.638641, 0.175798, 0.178259, 1)
+light_energy = 6.0
+light_size = 3.0
+light_bake_mode = 1
+spot_range = 24.0
+spot_angle = 10.8125
+
+[node name="Cube_1kg" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("4_jcaow")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.59497, -3, 11.3856)
+
+[node name="Cube_5kg" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("5_04w0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.66336, -3, 5.59851)
+
+[node name="Cube_5kg2" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("5_04w0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2403, -3, -6.0514)
+
+[node name="Cube_1kg2" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("4_jcaow")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1956, -2, -6.14062)
+
+[node name="Cube_1kg3" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("4_jcaow")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.94188, -2.92778, 5.9808)
+
+[node name="Cube_5kg3" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("5_04w0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95134, -1.92778, 5.95205)
+
+[node name="Door" parent="SecondFloor/CORNOR_SPAWN/CSGBox3D/CSGCylinder3D4" instance=ExtResource("6_sqgf4")]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -6.78078, -3.5, 13.7249)
 
 [node name="ThridFloor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.5, 0)
+visible = false
 use_collision = true
-size = Vector3(250, 0.5, 300)
+size = Vector3(150, 1, 200)
 material = SubResource("StandardMaterial3D_ph54e")
 
-[node name="WallOne_250" type="CSGBox3D" parent="ThridFloor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -150.276)
-size = Vector3(250, 8, 1)
+[node name="BORDERWALLS" type="Node" parent="ThridFloor"]
+
+[node name="WallOne_250" type="CSGBox3D" parent="ThridFloor/BORDERWALLS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, -100.276)
+use_collision = true
+size = Vector3(150, 8, 1)
 material = SubResource("StandardMaterial3D_jcaow")
 
-[node name="WallOne2_250" type="CSGBox3D" parent="ThridFloor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 149.983)
-size = Vector3(250, 8, 1)
+[node name="WallOne2_250" type="CSGBox3D" parent="ThridFloor/BORDERWALLS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.5, 99.983)
+use_collision = true
+size = Vector3(150, 8, 1)
 material = SubResource("StandardMaterial3D_04w0f")
 
-[node name="WallOne_300" type="CSGBox3D" parent="ThridFloor"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -124.936, -4, 0)
-size = Vector3(300, 8, 1)
+[node name="WallOne_300" type="CSGBox3D" parent="ThridFloor/BORDERWALLS"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -74.936, 20.5, 0)
+use_collision = true
+size = Vector3(200, 8, 1)
 material = SubResource("StandardMaterial3D_sqgf4")
 
-[node name="WallOne_301" type="CSGBox3D" parent="ThridFloor"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 125.064, -4, 0)
-size = Vector3(300, 8, 1)
+[node name="WallOne_301" type="CSGBox3D" parent="ThridFloor/BORDERWALLS"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 75.064, 20.5, 0)
+use_collision = true
+size = Vector3(200, 8, 1)
 material = SubResource("StandardMaterial3D_vvrx0")

@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cs3o7apkits0q"]
+[gd_scene load_steps=11 format=3 uid="uid://cs3o7apkits0q"]
 
 [ext_resource type="Script" uid="uid://cpi1h37apenmp" path="res://scripts/player/player.gd" id="1_cyojo"]
 [ext_resource type="Texture2D" uid="uid://pxn576nupfe8" path="res://assets/texture/PNG/Dark/texture_11.png" id="2_1kbk7"]
 [ext_resource type="PackedScene" uid="uid://bfgtjvfllhqgf" path="res://scenes/interaction/interaction_controller.tscn" id="3_gqjuk"]
+[ext_resource type="Texture2D" uid="uid://iaeq7bsyv2lu" path="res://assets/texture/Tiles/tile_0155.png" id="3_uiqp4"]
+[ext_resource type="Texture2D" uid="uid://cqcbfvujrrif1" path="res://assets/texture/Tiles/tile_0200.png" id="4_c4h5g"]
+[ext_resource type="Texture2D" uid="uid://c8j1evsq6ocjn" path="res://assets/texture/Tiles/tile_0156.png" id="4_hvfru"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kk62l"]
 
@@ -12,8 +15,79 @@ albedo_texture = ExtResource("2_1kbk7")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cyojo"]
 height = 1.0
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_hvfru"]
+radius = 5.0
+
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_cyojo")
+
+[node name="GUI" type="Node" parent="."]
+
+[node name="ReticleLayer" type="CanvasLayer" parent="GUI"]
+
+[node name="Control" type="Control" parent="GUI/ReticleLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DefaultReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_c4h5g")
+stretch_mode = 3
+
+[node name="HighlightReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_uiqp4")
+stretch_mode = 3
+
+[node name="InteractingReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_hvfru")
+stretch_mode = 3
 
 [node name="Standing" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -39,7 +113,7 @@ fov = 100.0
 
 [node name="FlashLight" type="SpotLight3D" parent="Head/Eyes/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.398317)
-light_energy = 12.0
+light_energy = 3.0
 shadow_enabled = true
 distance_fade_enabled = true
 spot_range = 25.0
@@ -58,3 +132,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 target_position = Vector3(0, 2, 0)
 
 [node name="Interaction controller" parent="." instance=ExtResource("3_gqjuk")]
+
+[node name="InteractableCheck" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableCheck"]
+shape = SubResource("SphereShape3D_hvfru")
