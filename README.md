@@ -7,3 +7,32 @@
   - Added **object throwing and holding** mechanics
   - Implemented **door interaction** (open/close)
   - Started building a **dark base map** for the game
+## 8/5/2025
+  ## 🛠️ New Features & Improvements
+
+  - Interactive Lever and Wheel : Added lever and wheel objects that players can spin or switch to trigger events such as opening doors, activating lights, or lowering bridges.
+    
+  - Enhanced InteractionComponent : Updated to support event triggering when levers, wheels, or switches are used — making it easy to connect game elements dynamically.
+    
+  - Item Pickup System : Items can now be picked up by the player. This is the groundwork for a full inventory system planned for future updates.
+    
+  - Visual Feedback with Shader Outline : mplemented a pixel-perfect outline shader (from Perfect Outline Shader) that highlights items when the player is within 10 meters, improving item visibility and interaction clarity.
+    
+  - Dynamic Reticle Feedback :
+    - Implemented dynamic reticle changes :
+      - Simple dot when idle
+      - Open hand when able to interact with an object
+      - Holding hand when interacting or holding an object
+        
+  - Player Flashlight : Added a toggleable flashlight for the player, controlled with the “F” key for better visibility in dark areas.
+    
+  - Acknowledgments :
+  ## Special thanks to Crooked Smile Studios for the excellent Godot tutorials, which inspired and guided much of this work.
+
+
+
+  ## 🎨 Assets & Resources Used
+  - Reticle Textures : The dynamic reticle icons (simple dot, open hand, holding hand) use the Cursor Pixel Pack by Kenney:
+      https://kenney.nl/assets/cursor-pixel-pack
+  - Outline Shader : The pixel-perfect outline shader script was adapted from this excellent resource:
+      https://godotshaders.com/shader/pixel-perfect-outline-shader/
