@@ -16,7 +16,7 @@
     
   - Item Pickup System : Items can now be picked up by the player. This is the groundwork for a full inventory system planned for future updates.
     
-  - Visual Feedback with Shader Outline : mplemented a pixel-perfect outline shader (from Perfect Outline Shader) that highlights items when the player is within 10 meters, improving item visibility and interaction clarity.
+  - Visual Feedback with Shader Outline : Implemented a pixel-perfect outline shader (from Perfect Outline Shader) that highlights items when the player is within 10 meters, improving item visibility and interaction clarity.
     
   - Dynamic Reticle Feedback :
     - Implemented dynamic reticle changes :
