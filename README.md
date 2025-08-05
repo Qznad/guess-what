@@ -27,7 +27,7 @@
   - Player Flashlight : Added a toggleable flashlight for the player, controlled with the “F” key for better visibility in dark areas.
     
   - Acknowledgments :
-  ## Special thanks to Crooked Smile Studios for the excellent Godot tutorials, which inspired and guided much of this work.
+    Special thanks to Crooked Smile Studios for the excellent Godot tutorials .
 
 
 
