@@ -6,7 +6,8 @@ enum Interaction_Type {
 	DOOR,
 	SWITCH,
 	WHEEL,
-	ITEM
+	ITEM,
+	PLAYER
 }
 
 @export var object_ref : Node3D
@@ -111,7 +112,11 @@ func _input(event: InputEvent) -> void:
 
 					#  Update the previous mouse position
 					previous_mouse_pos = mouse_position
-
+					
+					var min_wheel_rotation: float = starting_rotation / 0.1
+					var max_wheel_rotation: float = maximum_rotation / 0.1
+					
+					wheel_rotation = clamp(wheel_rotation, min_wheel_rotation, max_wheel_rotation)
 func _default_interact() -> void :
 	var object_current_position : Vector3 = object_ref.global_transform.origin
 	var player_hand_position : Vector3 = player_hand.global_transform.origin
@@ -143,7 +148,7 @@ func set_direction(_normal : Vector3) -> void :
 
 func notify_nodes(percentage : float ) -> void :
 	for node in nodes_to_affect :
-		if node.has_method("execute") :
+		if node and node.has_method("execute") :
 			node.call("execute" , percentage)
 
 

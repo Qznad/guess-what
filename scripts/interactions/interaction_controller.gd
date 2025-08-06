@@ -19,8 +19,9 @@ var last_potential_object : Object
 var interaction_component : Node
 
 func _ready() -> void:
-	interactable_check.body_entered.connect(_on_body_entered)
-	interactable_check.body_exited.connect(_on_body_exited)
+	if interactable_check :
+		interactable_check.body_entered.connect(_on_body_entered)
+		interactable_check.body_exited.connect(_on_body_exited)
 	#MAKE SURE CROSSHAIR IS ALWAYS CENTERED 
 	#default_reticle.position.x = get_viewport().size.x / 2
 	#default_reticle.position.x = get_viewport().size.y / 2
@@ -32,7 +33,14 @@ func _process(delta: float) -> void:
 		interacting_reticle.visible = true
 	#if on previous frame we were interacting with an object , lets keep interacting  
 	if current_object :
-		if Input.is_action_just_pressed("secondary") :
+		
+		if camera_3d.global_transform.origin.distance_to(current_object.global_transform.origin) > 3.0 :
+			if interaction_component :
+				interaction_component.postInteract()
+			current_object = null
+			_unfocus()
+		
+		if Input.is_action_just_pressed("secondary") : 
 			if interaction_component :
 				interaction_component.auxInteract()
 				current_object = null
@@ -66,6 +74,8 @@ func _process(delta: float) -> void:
 						
 					if interaction_component.interaction_type == interaction_component.Interaction_Type.DOOR :
 						interaction_component.set_direction(current_object.to_local(interaction_raycast.get_collision_point()))
+			else : 
+				_unfocus()
 		else :
 			_unfocus()
 func isCameraLocked() -> bool :

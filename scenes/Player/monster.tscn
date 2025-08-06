@@ -1,27 +1,25 @@
-[gd_scene load_steps=11 format=3 uid="uid://cs3o7apkits0q"]
+[gd_scene load_steps=10 format=3 uid="uid://6mvnjeoan4yk"]
 
-[ext_resource type="Script" uid="uid://cpi1h37apenmp" path="res://scripts/player/player.gd" id="1_cyojo"]
-[ext_resource type="PackedScene" uid="uid://bfgtjvfllhqgf" path="res://scenes/interaction/interaction_controller.tscn" id="3_gqjuk"]
-[ext_resource type="Texture2D" uid="uid://iaeq7bsyv2lu" path="res://assets/texture/Tiles/tile_0155.png" id="3_uiqp4"]
-[ext_resource type="Texture2D" uid="uid://cqcbfvujrrif1" path="res://assets/texture/Tiles/tile_0200.png" id="4_c4h5g"]
-[ext_resource type="Texture2D" uid="uid://c8j1evsq6ocjn" path="res://assets/texture/Tiles/tile_0156.png" id="4_hvfru"]
+[ext_resource type="Script" uid="uid://c37t0lf1s4fnk" path="res://scripts/monster/monster.gd" id="1_k4oi6"]
+[ext_resource type="Texture2D" uid="uid://cqcbfvujrrif1" path="res://assets/texture/Tiles/tile_0200.png" id="2_r4ssi"]
+[ext_resource type="Texture2D" uid="uid://iaeq7bsyv2lu" path="res://assets/texture/Tiles/tile_0155.png" id="3_mb2mw"]
+[ext_resource type="Texture2D" uid="uid://c8j1evsq6ocjn" path="res://assets/texture/Tiles/tile_0156.png" id="4_x2sih"]
+[ext_resource type="PackedScene" uid="uid://bfgtjvfllhqgf" path="res://scenes/interaction/interaction_controller.tscn" id="6_jbi5e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kk62l"]
+height = 3.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uiqp4"]
-albedo_color = Color(0.14152, 0.315046, 0.736149, 1)
+albedo_color = Color(0.668785, 0, 0.206666, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hvfru"]
 material = SubResource("StandardMaterial3D_uiqp4")
+height = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cyojo"]
-height = 1.0
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_hvfru"]
-radius = 5.0
 
 [node name="player" type="CharacterBody3D"]
-script = ExtResource("1_cyojo")
+script = ExtResource("1_k4oi6")
 
 [node name="GUI" type="Node" parent="."]
 
@@ -50,7 +48,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_c4h5g")
+texture = ExtResource("2_r4ssi")
 stretch_mode = 3
 
 [node name="HighlightReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
@@ -69,7 +67,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_uiqp4")
+texture = ExtResource("3_mb2mw")
 stretch_mode = 3
 
 [node name="InteractingReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
@@ -88,22 +86,22 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_hvfru")
+texture = ExtResource("4_x2sih")
 stretch_mode = 3
 
 [node name="Standing" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("CapsuleShape3D_kk62l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Standing"]
 mesh = SubResource("CapsuleMesh_hvfru")
 
 [node name="Crouching" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_cyojo")
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
 
 [node name="Eyes" type="Node3D" parent="Head"]
 
@@ -113,11 +111,11 @@ fov = 100.0
 
 [node name="FlashLight" type="SpotLight3D" parent="Head/Eyes/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.398317)
-light_energy = 3.0
+light_color = Color(0.722418, 0.135922, 0.0656304, 1)
+light_energy = 16.0
 shadow_enabled = true
-distance_fade_enabled = true
-spot_range = 25.0
-spot_angle = 29.0677
+spot_range = 43.0
+spot_angle = 36.6584
 spot_angle_attenuation = 0.594604
 
 [node name="interaction_raycast" type="RayCast3D" parent="Head/Eyes/Camera3D"]
@@ -129,11 +127,6 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="StandUpCheck" type="RayCast3D" parent="."]
-target_position = Vector3(0, 2, 0)
+target_position = Vector3(0, 3, 0)
 
-[node name="Interaction controller" parent="." instance=ExtResource("3_gqjuk")]
-
-[node name="InteractableCheck" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableCheck"]
-shape = SubResource("SphereShape3D_hvfru")
+[node name="Interaction controller" parent="." instance=ExtResource("6_jbi5e")]

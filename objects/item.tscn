@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxkxl7xogytio"]
+[gd_scene load_steps=7 format=3 uid="uid://bxkxl7xogytio"]
 
+[ext_resource type="Shader" uid="uid://7cybe1y7f1gx" path="res://shaders/item_hightlight.gdshader" id="1_nfg8c"]
 [ext_resource type="PackedScene" uid="uid://bg2p00dg5arjl" path="res://scenes/interaction/interaction_component.tscn" id="1_oqx7i"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_6jxwp"]
@@ -7,8 +8,12 @@ top_radius = 0.1
 bottom_radius = 0.1
 height = 0.3
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8v2r"]
+render_priority = 0
+shader = ExtResource("1_nfg8c")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oqx7i"]
-albedo_color = Color(0.817512, 0.00052578, 0.817453, 1)
+next_pass = SubResource("ShaderMaterial_e8v2r")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_nfg8c"]
 height = 0.3
