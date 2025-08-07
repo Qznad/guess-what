@@ -26,6 +26,16 @@ var camera : Camera3D
 var previous_mouse_pos : Vector2
 var wheel_rotation : float = 0.0
 
+# switch vars
+var switch_target_rotation : float = 0.0
+var switch_lerp_switch : float = 8.0
+var is_switch_snapping : bool = false
+
+# doors variations
+var door_angle : float = 0.0
+var door_velocity:float = 0.0
+var door_smoothing : float = 1.0 #control how heavy the door feels when openning / letting go 
+var door_input_active : bool = false
 # Signals
 signal item_collected(item:Node)
 
@@ -55,6 +65,28 @@ func preInteract(hand : Marker3D) ->void:
 			lock_camera = true
 			previous_mouse_pos = get_viewport().get_mouse_position()
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE 
+
+func _process(delta: float) -> void:
+	match interaction_type:
+		Interaction_Type.DOOR :
+			if not door_input_active : 
+				door_velocity = lerp(door_velocity , 0.0 , delta * 0.6)
+			
+			door_angle += door_velocity
+			door_angle = clamp(door_angle , starting_rotation - maximum_rotation , maximum_rotation )
+			pivot_point.rotation.y  = door_angle
+			door_input_active = false
+		Interaction_Type.SWITCH :
+			if is_switch_snapping :
+				object_ref.rotation.z = lerp(object_ref.rotation.z , switch_target_rotation , delta * switch_lerp_switch)
+				if abs(object_ref.rotation.z - switch_target_rotation) < 0.01 :
+					object_ref.rotation.z = switch_target_rotation
+					is_switch_snapping = false
+				var percentage = (object_ref.rotation.z - starting_rotation) / (maximum_rotation - starting_rotation)
+
+				notify_nodes(percentage)
+		Interaction_Type.WHEEL :
+			return
 #Run every frame perform some logic on this object
 func interact()->void:
 	if not can_interact:
@@ -76,17 +108,27 @@ func postInteract()->void:
 	is_interacting = false
 	lock_camera = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	match interaction_type:
+		Interaction_Type.SWITCH :
+			var percentage : float = (object_ref.rotation.z - starting_rotation) / (maximum_rotation - starting_rotation)
+			if percentage < 0.2 :
+				switch_target_rotation = starting_rotation
+				is_switch_snapping = true
+			elif percentage > 0.8 :
+				switch_target_rotation = maximum_rotation
+				is_switch_snapping = true
 func _input(event: InputEvent) -> void:
 	if is_interacting:
 		match interaction_type :
 			Interaction_Type.DOOR :
 				if event is InputEventMouseMotion :
-					if is_front :
-						pivot_point.rotate_y(-event.relative.y * .001)
-					else :
-						pivot_point.rotate_y(event.relative.y * .001)
-					pivot_point.rotation.y = clamp(pivot_point.rotation.y , starting_rotation - maximum_rotation , maximum_rotation)
+					door_input_active = true
+					var delta : float = -event.relative.y * .001
+					if not is_front :
+						delta = - delta
+					if abs(delta) < 0.01  :
+						delta *= 0.25
+					door_velocity = lerp(door_velocity , delta , 1.0 / door_smoothing)
 			Interaction_Type.SWITCH :
 				if event is InputEventMouseMotion :
 					var percentage : float

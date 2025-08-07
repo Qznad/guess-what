@@ -32,7 +32,12 @@ const crouching_depth : float = -0.9
 
 #Player_Settings
 var base_fov : float = 75.0
-var mouse_sense :float = 0.2
+
+#sense settings
+var normal_sense :float = 0.2
+var current_sense :float = normal_sense
+var sense_restore_speed : float = 5.0
+var sense_fading_in : bool = false
 
 const jump_velocity : = 4.0
 
@@ -68,14 +73,24 @@ func _input(event: InputEvent) -> void:
 		get_tree().quit()
 		
 	if event is InputEventMouseMotion :
-		if not interaction_controller.isCameraLocked() :
-			rotate_y(deg_to_rad(-event.relative.x) * mouse_sense )
-			head.rotate_x(deg_to_rad(-event.relative.y) * mouse_sense)
+		if current_sense > 0.01 and not interaction_controller.isCameraLocked() :
+			rotate_y(deg_to_rad(-event.relative.x) * current_sense )
+			head.rotate_x(deg_to_rad(-event.relative.y) * current_sense)
 			head.rotation.x = clamp(head.rotation.x , deg_to_rad(-85) , deg_to_rad(85))
 	# Toggle flashlight on/off
 	if event.is_action_pressed("flashlight"):
 		flashlight_on = !flashlight_on
 		flashlight.visible = flashlight_on
+
+func _process(delta: float) -> void:
+	if sense_fading_in : 
+		current_sense = lerp(current_sense , normal_sense , delta * sense_restore_speed)
+		
+		if abs(current_sense - normal_sense) < 0.01 : 
+			current_sense = normal_sense
+			sense_fading_in = false
+	set_camera_locked(interaction_controller.isCameraLocked())
+	
 func _physics_process(delta: float) -> void:
 
 	update_player_stat()
@@ -192,3 +207,11 @@ func update_camera(delta : float) -> void :
 		else :
 			eyes.position.y = lerp(eyes.position.y , 0.0,delta * lerp_speed)
 			eyes.position.x = lerp(eyes.position.x , 0.0,delta * lerp_speed)
+
+
+func set_camera_locked(locked:bool) -> void : 
+	if locked : 
+		current_sense = 0.0
+		sense_fading_in = false
+	else : 
+		sense_fading_in = true

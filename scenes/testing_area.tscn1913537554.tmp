@@ -364,4 +364,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75531, 1.65, 4.57232)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2574, 1.65, 5.05853)
 
 [node name="player" parent="." instance=ExtResource("13_rfdjd")]
-transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 1.24357, 0.654799, -0.141807)
+transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 1.24357, 0.239446, -0.141807)
