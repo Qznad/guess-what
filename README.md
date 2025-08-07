@@ -38,6 +38,11 @@
   - fixed some bugs related to interaction objects (some still need fixing )
   - added monster as a player 3 meters tall can't crouch through vents but he's fast , always have a red flashlight on which is 35 meter range and stronger then normal player
   - recreated the map in a cleaner way
+## 8/7/2025
+  # 🛠️ Recent Updates
+  - fixed some bugs with interactions and yes there's still more to fix
+
+
       # THINGS TO DO :
       - add server handling for early testing
       - add inventory system to player
